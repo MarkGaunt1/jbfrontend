@@ -2,6 +2,12 @@ import React,{useState} from 'react';
 import {Form} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
 import {Container, Row, Col} from 'react-bootstrap';
+import { useForm } from "react-hook-form";
+import { MyComponentClientUpdate} from './MyComponentClientUpdate';
+
+
+
+
 
 const clientPage = {
     width: '100%',
@@ -29,8 +35,9 @@ export function MyComponentClient() {
     const [jobdescription, setJobdescription] = useState("");
     const[_id, set_id] = useState("");
     const[responseData, setResponseData] = useState([]);
-
-
+    
+    const { register, handleSubmit, errors } = useForm();
+  
 
     function onClick() {
         
@@ -43,22 +50,30 @@ export function MyComponentClient() {
         };
         fetch(`http://localhost:5000/api/vacs`, requestOptions)
         .then(response => response.json())
-        .then(data => setResponseData(data));
+        .then(data => {setResponseData(data)
+        window.location.reload()});
         console.log(responseData)
     }; 
 
 
-    function onClickDel() {
+
+    
+
+
+    function onClickDel(event) {
+
+        event.preventDefault();
             
         
         
         fetch(`http://localhost:5000/api/vacs/` + _id, {method: 'DELETE'})
         .then(response => response.text())
-        .then(result => console.log(result))
+        .then(result => window.location.reload())
         .catch(error => console.log('error', error));
     };
 
-
+    
+ 
   return (
     <div>
 
@@ -74,31 +89,41 @@ export function MyComponentClient() {
                     <Form style = {AddForm}>
                         <Form.Label><h3>&lt;Post Vacancy/&gt;</h3></Form.Label>
         
-                            <Form.Group controlId="formBasicText1">
-                                <Form.Label>Job Reference:</Form.Label>
-                                <Form.Control type="text" value= {jobref}  onChange={e => setJobref(e.target.value)} placeholder="eg Job01" />
+                            <Form.Group controlId="jobreference" >
+                                <Form.Label for="jobreference">Job Reference:</Form.Label>
+                                <Form.Control name ="jobreference" type="text" value= {jobref}  onChange={e => setJobref(e.target.value)} ref={register({ required: true })} placeholder="eg Job01"  />
+                                {errors.jobreference && errors.jobreference.type === "required" && <span>A job reference is required!</span>}
+                                                                                                                               
                             </Form.Group>
 
                             <Form.Group controlId="formBasicText2">
                                 <Form.Label>Job Title:</Form.Label>
-                                <Form.Control type="text" value= {jobtitle}  onChange={e => setJobtitle(e.target.value)}placeholder="eg Developer" />
+                                <Form.Control name ="jobtitle" type="text" value= {jobtitle}  onChange={e => setJobtitle(e.target.value)} ref={register({ required: true })} placeholder="eg Developer" />
+                                {errors.jobtitle && errors.jobtitle.type === "required" && <span>A job title is required!</span>}
+
                             </Form.Group>
 
                             <Form.Group controlId="formBasicText3">
                                 <Form.Label>Job Salary:</Form.Label>
-                                <Form.Control type="number" value= {salary}  onChange={e => setSalary(e.target.value)}placeholder="30000" />
+                                <Form.Control name ="salary" type="number" value= {salary}  onChange={e => setSalary(e.target.value)} ref={register({ required: true })} placeholder="30000" />
+                                {errors.salary && errors.salary.type === "required" && <span>Job salary is required!</span>}
+
                             </Form.Group>
 
                             <Form.Group controlId="formBasicText4">
                                 <Form.Label>Location</Form.Label>
-                                <Form.Control type="text" value= {location}  onChange={e => setLocation(e.target.value)}placeholder="eg Leeds" />
+                                <Form.Control name ="location" type="text" value= {location}  onChange={e => setLocation(e.target.value)} ref={register({ required: true })} placeholder="eg Leeds" />
+                                {errors.location && errors.location.type === "required" && <span>Job location is required!</span>}
+
                             </Form.Group>
 
                             <Form.Group controlId="exampleForm.ControlTextarea1">
                                 <Form.Label>Job Description:</Form.Label>
-                                <Form.Control as="textarea" rows="10" value= {jobdescription}  onChange={e => setJobdescription(e.target.value)} />
+                                <Form.Control name ="jobdescription" as="textarea" rows="10" value= {jobdescription}  onChange={e => setJobdescription(e.target.value)} ref={register({ required: true })} />
+                                {errors.jobdescription && errors.jobdescription.type === "required" && <span>Job description is required!</span>}
+
                                 <br />           
-                                <Button onClick={onClick} variant="primary" type="post" >
+                                <Button onClick={handleSubmit(onClick)} variant="primary" type="post" >
                                     Post
                                 </Button>
 
@@ -114,61 +139,7 @@ export function MyComponentClient() {
 
                 <Col>
 
-                <Form style = {AddForm}>
-                        <Form.Label><h3>&lt;Find & Edit Vacancy/&gt;</h3></Form.Label>
-        
-                            <Form.Group controlId="formBasicText1">
-                                <Form.Label>Job ID:</Form.Label>
-                                <Form.Control type="text" placeholder="eg Job01" />
-                                <br />           
-                                <Button variant="primary" type="delter" >
-                                    Find
-                                </Button>
-                            </Form.Group>
-
-                            
-
-       
-                    </Form>
-                    <br />
-
-                    <Form style = {AddForm}>
-                        <Form.Label><h3>&lt;Update Vacancy/&gt;</h3></Form.Label>
-        
-                            <Form.Group controlId="formBasicText1">
-                                <Form.Label>Job Reference:</Form.Label>
-                                <Form.Control type="text" placeholder="eg Job01" />
-                            </Form.Group>
-
-                            <Form.Group controlId="formBasicText2">
-                                <Form.Label>Job Title:</Form.Label>
-                                <Form.Control type="text" placeholder="eg Developer" />
-                            </Form.Group>
-
-                            <Form.Group controlId="formBasicText3">
-                                <Form.Label>Job Salary:</Form.Label>
-                                <Form.Control type="number" placeholder="30000" />
-                            </Form.Group>
-
-                            <Form.Group controlId="formBasicText4">
-                                <Form.Label>Location</Form.Label>
-                                <Form.Control type="text" placeholder="eg Leeds" />
-                            </Form.Group>
-
-                            <Form.Group controlId="exampleForm.ControlTextarea1">
-                                <Form.Label>Job Description:</Form.Label>
-                                <Form.Control as="textarea" rows="10" />
-                                <br />           
-                                <Button variant="primary" type="update" >
-                                    Update
-                                </Button>
-                                
-
-
-                            </Form.Group>
-
-       
-                    </Form>
+                <MyComponentClientUpdate/>
                 
                 </Col>
 
@@ -178,7 +149,7 @@ export function MyComponentClient() {
         
                             <Form.Group controlId="formBasicText1">
                                 <Form.Label>Job ID:</Form.Label>
-                                <Form.Control type="text" value= {_id}  onChange={e => set_id(e.target.value)}placeholder="eg Job01" />
+                                <Form.Control type="text" value= {_id}  onChange={e => set_id(e.target.value)}placeholder="eg 5f188815..." />
                                 <br />           
                                 <Button onClick={onClickDel} variant="primary" type="delter" >
                                     Delete
