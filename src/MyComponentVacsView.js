@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react';
 import {Table} from 'react-bootstrap';
-import image from './jboard.jpg';
+import image from './jboard4.jpg';
 
 
 const vacsPage = {
