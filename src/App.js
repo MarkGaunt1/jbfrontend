@@ -1,16 +1,22 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import './App.css';
-import image from './jboard.jpg';
+import { MyComponentHome} from './MyComponentHome';
 import { MyComponentClient} from './MyComponentClient';
 import { MyComponentVacsView} from './MyComponentVacsView';
 
-const styles = {
+const navStyles = {
   width: '100%',
-  height: '100%',
+  height: '100px',
   color: 'white',
-  margin: '0',
-  backgroundImage: 'url('+image+')',
-  backgroundSize: 'cover'
+  
+  backgroundColor: 'black',
+  backgroundSize: 'contain'
     
   };
 
@@ -27,27 +33,48 @@ function App() {
   />
       </header>
 
-      <div style = {styles}>
-        <br />
-        <br />
-        <h1>&lt;DEV JOBS R US/&gt;</h1>
-        <br />        
-        <h3>&lt;Advertise or search the latest developer jobs below/&gt;</h3>
-        <br /> 
-        <br />
-        <br />
-        <br />
-        <br />       
-       
-      </div>  
+      <Router>
+      <div>
+        <nav style = {navStyles}>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/clientvacancymanager">Client Vacancy Manager</Link>
+            </li>
+            <li>
+              <Link to="/currentvacancies">Current Vacancies</Link>
+            </li>
+          </ul>
+        </nav>
 
-    <MyComponentClient/>
-    <MyComponentVacsView/>
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/clientvacancymanager">
+            <MyComponentClient />
+          </Route>
+          <Route path="/currentvacancies">
+            <MyComponentVacsView />
+          </Route>
+          <Route path="/">
+            <MyComponentHome />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+
+    
+
+    
         
         
 
     </div>
   );
 }
+
+
 
 export default App;

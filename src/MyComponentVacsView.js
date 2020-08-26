@@ -7,10 +7,10 @@ const vacsPage = {
     width: '100%',
     height: '100%',
     color: 'white',
-    
     margin: '0',
     backgroundImage: 'url('+image+')',
-    backgroundSize: 'cover'
+    backgroundSize: 'contain'
+    
 }
 
 
@@ -69,6 +69,9 @@ export function MyComponentVacsView() {
         <td>Job Description:</td>
         <td>{vac.jobdescription}</td>
         </tr>
+        <br />
+        <br />
+        
 
 
     </tbody>
