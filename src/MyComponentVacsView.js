@@ -25,10 +25,12 @@ export function MyComponentVacsView() {
     const[responseData, setResponseData] = useState([]);
   
   useEffect(() => {
-    fetch("http://localhost:5000/api/vacs")
+    fetch(`${process.env.REACT_APP_APIHOST}/api/vacs`)
     .then(response => response.json())
   .then(data => setResponseData(data));
   },[]);
+
+  console.log(process.env.APIHOST);
     
   const renderTable = () => {
     return responseData.map(vac => {

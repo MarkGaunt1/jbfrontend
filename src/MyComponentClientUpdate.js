@@ -23,7 +23,7 @@ const { register, handleSubmit, errors } = useForm();
 
 function onClickFindEdit() {
 
-    fetch("http://localhost:5000/api/vacs/" +_idEdit)
+    fetch(`${process.env.REACT_APP_APIHOST}/api/vacs/` +_idEdit)
       .then(response => response.json())
       .then((result) => {setJobrefedit(result[0].jobref) 
         setJobtitleedit(result[0].jobtitle) 
@@ -52,7 +52,7 @@ function onClickEdit(event) {
     
     console.log(raw);
 
-    fetch("http://localhost:5000/api/vacs/" +_idEdit, requestOptions)
+    fetch(`${process.env.REACT_APP_APIHOST}/api/vacs/` +_idEdit, requestOptions)
       .then(response => response.text())
       .then(result => {console.log(result)
         window.location.reload()})
