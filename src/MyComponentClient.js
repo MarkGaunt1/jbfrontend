@@ -48,7 +48,7 @@ export function MyComponentClient() {
         },
             body:   JSON.stringify({ jobref, jobtitle, salary, location, jobdescription })
         };
-        fetch(`http://localhost:5000/api/vacs`, requestOptions)
+        fetch(`${process.env.REACT_APP_APIHOST}/api/vacs`, requestOptions)
         .then(response => response.json())
         .then(data => {setResponseData(data)
         window.location.reload()});
@@ -66,7 +66,7 @@ export function MyComponentClient() {
             
         
         
-        fetch(`http://localhost:5000/api/vacs/` + _id, {method: 'DELETE'})
+        fetch(`${process.env.REACT_APP_APIHOST}/api/vacs/` + _id, {method: 'DELETE'})
         .then(response => response.text())
         .then(result => window.location.reload())
         .catch(error => console.log('error', error));
