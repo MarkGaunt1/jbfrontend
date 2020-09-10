@@ -15,8 +15,7 @@ const vacsPage = {
 
 
 const table = {
-    marginLeft: '20%',
-    marginRight:'20%',
+    margin:'0'
   };
 
 
